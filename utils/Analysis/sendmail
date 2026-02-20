@@ -1,9 +1,0 @@
-mail -s "Subject Line" -a $1 raghuvanshi135@gmail.com <<EOF
-Hello,
-
-Please find attached the file you requested.
-
-Best regards,
-Your Name
-EOF
-
