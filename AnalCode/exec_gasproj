@@ -1,0 +1,33 @@
+#!/bin/bash
+
+pyrun="/u/sraghu/software/PYTHON3_install/bin/python3.10"
+
+"$pyrun" "gasproj_2.py" 1
+"$pyrun" "gasproj_2.py" 2
+"$pyrun" "gasproj_2.py" 3
+"$pyrun" "gasproj_2.py" 4
+"$pyrun" "gasproj_2.py" 5
+"$pyrun" "gasproj_2.py" 6
+"$pyrun" "gasproj_2.py" 7
+"$pyrun" "gasproj_2.py" 8
+"$pyrun" "gasproj_2.py" 9
+
+##"$pyrun" "gasproj_2.py" 10
+##"$pyrun" "gasproj_2.py" 11
+##"$pyrun" "gasproj_2.py" 12
+##"$pyrun" "gasproj_2.py" 13
+##"$pyrun" "gasproj_2.py" 14
+##"$pyrun" "gasproj_2.py" 15
+##"$pyrun" "gasproj_2.py" 16
+##"$pyrun" "gasproj_2.py" 17
+##"$pyrun" "gasproj_2.py" 18
+##"$pyrun" "gasproj_2.py" 19
+
+##"$pyrun" "gasproj_2.py" 20
+##"$pyrun" "gasproj_2.py" 21
+##"$pyrun" "gasproj_2.py" 22
+##"$pyrun" "gasproj_2.py" 23
+##"$pyrun" "gasproj_2.py" 24
+##"$pyrun" "gasproj_2.py" 25
+##"$pyrun" "gasproj_2.py" 26
+##"$pyrun" "gasproj_2.py" 27

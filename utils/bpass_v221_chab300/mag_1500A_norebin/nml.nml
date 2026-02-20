@@ -1,0 +1,7 @@
+&SED_PARAMS
+SED_dir = './../'
+ngroups    = 5
+groupL0    = 1490.
+groupL1    = 1510.
+/
+

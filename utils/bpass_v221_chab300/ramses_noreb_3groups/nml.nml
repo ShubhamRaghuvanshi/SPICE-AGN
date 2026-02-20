@@ -1,0 +1,131 @@
+&RUN_PARAMS
+cosmo=.true.
+pic=.true.
+poisson=.true.
+hydro=.true.
+verbose=.false.
+ordering='hilbert'
+nrestart=999      ! automatically selects the latest snapshot
+nremap=20
+nsubcycle=1,30*2
+ncontrol=1
+rt=.true.
+/
+
+&OUTPUT_PARAMS
+noutput=44
+aout = 0.025005950383, 0.029708766441, 0.034061186001, 0.038148979431, 0.042026779666, 0.045732091484, 0.049292066873, 0.052727163524, 0.056053276861, 0.059283072156, 0.062426846401, 0.065493113408, 0.068489016637, 0.071420623586, 0.074293142766, 0.077111089778, 0.079878409635, 0.082598575515, 0.085274665341, 0.087909426073, 0.090505313170, 0.093064546490, 0.095589129927, 0.098080887009, 0.100541477166, 0.102972425468, 0.105375123649, 0.107750862841, 0.110100828503, 0.112426122005, 0.114727766554, 0.117006711904, 0.119263842633, 0.121499990498, 0.123715930288, 0.125912390419, 0.128090053618, 0.130249562821, 0.132391525834, 0.134516515173, 0.136625072479, 0.138717710333, 0.140794913005, 0.142857143743
+maxruntime=96.
+minutes_save=10.
+/
+
+&INIT_PARAMS
+filetype='grafic'
+initfile(1)='../../ICs/10_Sphinx-5Mpc/256/LSS-44/level_008/'
+/
+
+&AMR_PARAMS
+levelmin=8
+levelmax=16
+ngridmax=350000
+npartmax=1000000
+/
+
+&REFINE_PARAMS
+m_refine=30*8.,
+interpol_var=1
+interpol_type=0
+jeans_refine=30*4.
+constant_physical_resolution=.false. ! No increasing levelmax over runtime
+/
+
+&POISSON_PARAMS
+cg_levelmin=11      ! try multigrid everywhere and cg_levelmin=cic_levelmax-3
+cic_levelmax=15     ! compare again to levelmax in pure DM simulation
+epsilon=1d-4
+/
+
+&HYDRO_PARAMS
+gamma=1.6666667
+courant_factor=0.8
+slope_type=1        ! Romain said it’s more stable than slope_type=3
+pressure_fix=.true.
+scheme='muscl'
+riemann='hllc'
+beta_fix=0.5 
+/
+
+&PHYSICS_PARAMS
+omega_b=0.049
+haardt_madau=.false.
+cooling=.true.
+neq_chem=.true.
+metal=.true.
+z_ave=0.00032       !! we need calibration on this
+t_star=1.632456  !! Only to prevent excessive refinement !!!
+n_star=10.      !! doesn’t matter but use same as n_gmc
+n_gmc=10.
+del_star=200
+T2_star=15
+g_star=1.0
+jeans_ncells=-1
+yield=0.075
+star_maker='FK2'
+sf_lam=1                   ! Allow star formation if lamjt < 4
+mechanical_feedback=.true. ! Maybe we want to use real_delay here??
+mechanical_geen=.true.
+sn2_real_delay=.true.
+ use_initial_mass=.true.
+t_sne=50.
+log_mfb=.false. ! -> need info
+nsn2mass=40   ! -> stellar particle mass = 10^3 Msun
+fstar_min=-1
+M_SNII=5.      ! similar to setting E_SNII=2e51
+eta_sn=0.2     ! Kroupa
+/
+
+&RT_PARAMS
+rt_isIR=.false.    ! do we want to include IR? (probably not)
+rt_isIRtrap=.false.
+rt_isoPress=.true.
+rt_smooth=.true.
+SED_isEgy=.false.
+rt_output_coolstats=.true.
+rt_star=.true.
+rt_otsa=.true.
+sed_dir='/home/rosdahl/SEDs/BPASS/bpass_v221/bpass_v221_chab300/'
+sedprops_update=10
+rt_esc_frac=1        ! we may calibrate this for sensible reionisation
+rt_nsubcycle=500
+rt_c_fraction=0.2, 0.1, 0.05, 0.025, 10*0.0125
+!      levels 8,   9,   10,   11,    12, ...
+showIonizationFraction=.true.
+/
+
+!&RT_GROUPS
+!groupL0 = 13.60, 100., 110.
+!groupL1 = 100.,  110., 0.
+!/
+
+&MOVIE_PARAMS
+movie=.true.
+aendmov=1.
+astartmov=0.03846153846
+imovout=10000
+imov=1
+nw_frame=1000
+nh_frame=1000
+levelmax_frame=16
+xcentre_frame=.5, 0., 0., 0.,  .449, 0., 0., 0.,  .5, 0., 0., 0.,  .449, 0., 0., 0.,  .207, 0., 0., 0.
+ycentre_frame=.5, 0., 0., 0.,  .569, 0., 0., 0.,  .5, 0., 0., 0.,  .569, 0., 0., 0.,  .317, 0., 0., 0.
+zcentre_frame=.5, 0., 0., 0.,  .511, 0., 0., 0.,  .5, 0., 0., 0.,  .511, 0., 0., 0.,  .707, 0., 0., 0.
+deltax_frame= 1., 0.,           .12, 0.,           1., 0.,          .12, 0.,            .1, 0.
+deltay_frame= 1., 0.,           .12, 0.,           1., 0.,          .12, 0.,            .1, 0.
+deltaz_frame= 1., 0.,           .12, 0.,           1., 0.,          .12, 0.,            .1, 0.
+proj_axis='zzzzz'
+movie_vars_txt = 'dm', 'lum', 'dens', 'temp', 'stars', 'xHII', 'xHeII', 'xHeIII', 'var6', 'Fp1', 'Fp2', 'Fp3'
+perspective_camera = .true.,  .true.,  .true., .true., .true.
+shader_frame =       'cube', 'cube', 'cube', 'cube', 'cube'
+dtheta_camera=       2000.,       2000.,       2000.,   2000.,   2000. ! total rotation in degrees
+phi_camera=          65.,       65.,       65.,    65.,    65.  ! initial LOS inclination in degrees
+/

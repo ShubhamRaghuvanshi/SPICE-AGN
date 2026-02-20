@@ -1,0 +1,139 @@
+23d22
+<   integer ::isink
+38,47d36
+<     !shubh
+<     !if(myid==1) then 
+<     !write(*,*) 'printing in  create_sink:', nsink
+<     !do isink=1,nsink
+<     !  write(*,'(A,1X,I3,1X,I3,1X,1P,E12.5,1X,E12.5)') 'sinkmass before create_sink:', isink, idsink(isink), msink(isink), msink(idsink(isink))
+<     !enddo 
+<     !endif 
+<     !shubh
+< 
+< 
+62,69d50
+<     !shubh
+<     !if(myid==1) then 
+<     !do isink=1,nsink
+<     !  write(*,'(A,1X,I3,1X,I3,1X,1P,E12.5,1X,E12.5)') 'sinkmass after make_sink:', isink, idsink(isink), msink(isink), msink(idsink(isink))
+<     !enddo 
+<     !endif 
+<     !shubh
+< 
+75,83d55
+<   !shubh
+<   if(myid==1) then 
+<   do isink=1,nsink
+<     write(*,'(A,1X,I3,1X,I3,1X,1P,E12.5,1X,E12.5)') 'sinkmass before merge_sink:', isink, idsink(isink), msink(isink), msink(idsink(isink))
+<   enddo 
+<   endif 
+<   !shubh
+< 
+< 
+87,94d58
+<   !shubh
+<   if(myid==1) then 
+<   do isink=1,nsink
+<     write(*,'(A,1X,I3,1X,I3,1X,1P,E12.5,1X,E12.5)') 'sinkmass after merge_sink:', isink, idsink(isink), msink(isink), msink(idsink(isink))
+<   enddo 
+<   endif 
+<   !shubh
+< 
+125,133d88
+<     !shubh
+<     !if(myid==1) then 
+<     !do isink=1,nsink
+<     !  write(*,'(A,1X,I3,1X,I3,1X,1P,E12.5,1X,E12.5)') 'sinkmass after make_boundary_hydro:', isink, idsink(isink), msink(isink), msink(idsink(isink))
+<     !enddo 
+<     !endif 
+<     !shubh
+< 
+< 
+140,148d94
+<     !shubh
+<     !if(myid==1) then 
+<     !write(*,*) 'printing in  create_sink:', nsink
+<     !do isink=1,nsink
+<     !  write(*,'(A,1X,I3,1X,I3,1X,1P,E12.5,1X,E12.5)') 'sinkmass after bondi_hoyle:', isink, idsink(isink), msink(isink), msink(idsink(isink))
+<     !enddo 
+<     !endif 
+<     !shubh
+< 
+210c156
+<   !if(myid == 1)write(*,*)' Entering make_sink, nsink:', nsink
+---
+>   !if(myid == 1)write(*,*)' Entering make_sink, nsink, eddington_limit:', nsink, eddington_limit
+573c519
+<   !if(verbose)write(*,*)'multiple sink creation checked',ntot
+---
+>   if(verbose)write(*,*)'multiple sink creation checked',ntot
+2664,2666d2609
+<   !shubh
+<   real(dp)::eps_r
+<   !shubh
+2743a2687
+> 
+2747a2692
+>      volmean_sink(isink) = volume  
+2748a2694
+> 
+2772,2777d2717
+<      !shubh
+<      eps_r=epsilon_r
+<       if(.not.sink_AGN)then
+<           eps_r=0d0
+<       endif
+<      !shubh
+2900,2902c2840,2850
+<      dMsmbhoverdt_out(isink) = dMsmbhoverdt_out(isink) + dMsmbh_all(isink)
+<      dMBHoverdt_out(isink)   = dMBHoverdt_out(isink) + dMBH_coarse_all(isink)*(1d0-eps_r)
+<      dMEddoverdt_out(isink)  = dMEddoverdt_out(isink) + dMEd_coarse_all(isink)*(1d0-eps_r)
+---
+>      dMsmbhoverdt_out(isink) = msink_all(isink)/dtnew(ilevel)
+>      dMBHoverdt_out(isink)   = dMBH_coarse(isink)/dtnew(ilevel)
+>      dMEddoverdt_out(isink)  = dMEd_coarse(isink)/dtnew(ilevel)
+>      !shubh
+>      !shubh
+>      !if(eddington_limit) then 
+>      !  if(dMsmbh(isink) >  dMEd_coarse(isink)) then 
+>      !    write(*,*) "mass accreted at rate higher than Eddington rate, terminating"
+>      !    call clean_stop
+>      !  endif
+>      !endif 
+2904d2851
+< 
+5161,5163d5107
+<   !shubh
+<   Efeed_new=0d0
+<   !shuhb
+5168c5112,5113
+<      Efeed_new(isink)=EfeedAGN(iAGN)
+---
+>      ! write(*,*), 'energy ratio :', isink, myid, vol_gas(isink)/Efeed_new(isink)
+>      Efeed_new(isink)= (EfeedAGN(iAGN)/vol_gas(isink))*Efeed_new(isink) 
+5172c5117
+<   call MPI_ALLREDUCE(Efeed_new,Efeed_all,nsink,MPI_DOUBLE_PRECISION,MPI_MAX,MPI_COMM_WORLD,info)
+---
+>   call MPI_ALLREDUCE(Efeed_new,Efeed_all,nsink,MPI_DOUBLE_PRECISION,MPI_SUM,MPI_COMM_WORLD,info)
+5178c5123
+<   Efeed_new=0d0 !Reset for next coarse step
+---
+>   !Efeed_new=0d0 !Reset for next coarse step
+5500a5446,5448
+>   !shubh
+>   Efeed_new=0d0 
+>   !shubh
+5504a5453,5455
+>      !shubh
+>      Efeed_new(isink)=vol_gas (iAGN)
+>      !shubh
+5647,5649d5597
+<   !shubh
+<   EfeedAGN=0d0
+<   !shubh
+5703c5651
+<      !EfeedAGN(iAGN)=eAGN_K*epsilon_r*dMsmbh_AGN(iAGN)
+---
+>      !shubh
+5704a5653
+>      !shubh

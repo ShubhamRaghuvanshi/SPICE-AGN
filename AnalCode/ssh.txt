@@ -1,0 +1,45 @@
+Host raven.mpcdf.mpg.de
+    HostName raven.mpcdf.mpg.de
+    User sraghu
+
+Host freya01
+    HostName freya01.bc.mpcdf.mpg.de
+    User sraghu
+
+Host freya02
+  HostName freya02.bc.mpcdf.mpg.de
+  User sraghu
+
+Host remotefreya01
+    HostName freya01.bc.mpcdf.mpg.de
+    User sraghu
+    ProxyJump office
+
+Host remotefreya02
+  HostName freya02.bc.mpcdf.mpg.de
+  User sraghu
+  ProxyJump office
+  
+Host remotefreya03
+  HostName freya03.bc.mpcdf.mpg.de
+  User sraghu
+  ProxyJump office
+
+Host remotefreya04
+  HostName freya04.bc.mpcdf.mpg.de
+  User sraghu
+  ProxyJump office
+    
+Host office
+    HostName slogin.mpa-garching.mpg.de
+    User sraghu
+
+Host office2
+    HostName slogin.mpa-garching.mpg.de
+    User sraghu
+
+Host remoteraven
+  HostName raven.mpcdf.mpg.de
+  User sraghu
+  ProxyJump office
+  
